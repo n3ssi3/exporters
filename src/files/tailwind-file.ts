@@ -197,6 +197,7 @@ function generateTypographyUtility(tokens: Array<Token>, tokenGroups: Array<Toke
   if (typographyTokens.length === 0) return ""
 
   let content = "\n"
+
   typographyTokens.forEach((token) => {
     const classContent = generateTypographyClass(token, tokenGroups, "@utility ")
     if (classContent) {
@@ -239,6 +240,11 @@ function generateCSSVariables(
     })
   } else {
     tokensByType.set(type, tokens)
+  }
+
+  if (exportConfiguration.forceRemUnit) {
+    cssVariables += `\n${indentString}/* Rem Base Size */\n`
+    cssVariables += `${indentString}--rem-base: ${exportConfiguration.remBase}px;\n`
   }
 
   // Generate CSS variables for all token types
@@ -347,7 +353,9 @@ export function styleOutputFile(
       (token) =>
         // @ts-ignore
         token.value.referencedTokenId &&
+        // @ts-ignore
         token.value.referencedTokenId !== null &&
+        // @ts-ignore
         token.value.referencedTokenId !== undefined
     )
 
@@ -423,7 +431,9 @@ export function generateStyleFiles(
       (token) =>
         // @ts-ignore
         token.value.referencedTokenId &&
+        // @ts-ignore
         token.value.referencedTokenId !== null &&
+        // @ts-ignore
         token.value.referencedTokenId !== undefined
     )
 
